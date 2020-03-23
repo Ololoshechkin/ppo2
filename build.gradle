@@ -1,0 +1,37 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.70'
+}
+
+group 'ppo2'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.2.17'
+    implementation group: 'org.mongodb', name: 'mongodb-driver-rx', version: '1.5.0'
+    implementation group: 'io.netty', name: 'netty-all', version: '4.1.45.Final'
+    implementation group: 'io.reactivex', name: 'rxnetty-http', version: '0.5.3'
+    implementation group: 'io.reactivex', name: 'rxnetty-common', version: '0.5.3'
+    implementation group: 'com.typesafe', name: 'config', version: '1.4.0'
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.6'
+    implementation group: 'org.apache.httpcomponents', name: 'httpcore', version: '4.4.11'
+    implementation 'com.beust:klaxon:5.0.1'
+
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'org.mockito', name: 'mockito-all', version: '1.10.19'
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
