@@ -22,7 +22,7 @@ object DeleteProductsRequest : Request {
     override fun perform(data: ReactiveDatabase) = data.deleteAllProducts().map { it.toString() }
 }
 
-object DeleteUsersRequest : Request {
+object UnregisterUsersRequest : Request {
     override fun perform(data: ReactiveDatabase) = data.deleteAllUsers().map { it.toString() }
 }
 
@@ -51,14 +51,14 @@ class InvalidRequest(private val reason: Throwable) : Request {
 
 fun <T> makeRequest(httpRequest: HttpServerRequest<T>): Request = httpRequest.decodedPath.substring(1).let { cmd ->
     when (cmd) {
-        "add_user" -> RegisterUserRequest(
+        "registerUser" -> RegisterUserRequest(
             User(
                 userId = httpRequest.getParam("userId").toLong(),
                 mainCurrency = httpRequest.getParam("currency").toCurrencyOrThrow()
             )
         )
-        "get_user" -> GetUserRequest(id = httpRequest.getParam("userId").toLong())
-        "add_product" -> AddProductRequest(
+        "getUser" -> GetUserRequest(id = httpRequest.getParam("userId").toLong())
+        "addProduct" -> AddProductRequest(
             Product(
                 productId = httpRequest.getParam("userId").toLong(),
                 price = httpRequest.getParam("price").toDouble()
@@ -66,10 +66,10 @@ fun <T> makeRequest(httpRequest: HttpServerRequest<T>): Request = httpRequest.de
                 name = httpRequest.getParam("name")
             )
         )
-        "get_product" -> GetProductRequest(id = httpRequest.getParam("userId").toLong())
-        "delete_products" -> DeleteProductsRequest
-        "delete_users" -> DeleteUsersRequest
-        "list_for_user" -> GetProductsForUserRequest(id = httpRequest.getParam("userId").toLong())
+        "getProduct" -> GetProductRequest(id = httpRequest.getParam("userId").toLong())
+        "deleteProducts" -> DeleteProductsRequest
+        "unregisterUser" -> UnregisterUsersRequest
+        "productsForUser" -> GetProductsForUserRequest(id = httpRequest.getParam("userId").toLong())
         else -> InvalidRequest(IllegalArgumentException("No such command $cmd"))
     }
 }

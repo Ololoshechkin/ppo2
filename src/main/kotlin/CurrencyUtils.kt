@@ -1,6 +1,6 @@
 import com.beust.klaxon.Json
 import com.beust.klaxon.Klaxon
-import config.CurrencyConversionConfig
+import com.typesafe.config.Config
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
@@ -22,7 +22,7 @@ class CurrencyConverterImpl(private val conversion: Map<Pair<Currency, Currency>
 }
 
 class UpToDateCurrencyRates(
-    config: CurrencyConversionConfig,
+    config: Config,
     private val client: HTTPClient
 ) {
     private val converterRef = AtomicReference<CurrencyConverter>(getConversion(config, client))
@@ -40,7 +40,7 @@ class UpToDateCurrencyRates(
     private val parser = Klaxon()
 
     private fun getConversion(
-        config: CurrencyConversionConfig,
+        config: Config,
         client: HTTPClient
     ): CurrencyConverter = client.use {
         val resp = it.getResponse(
